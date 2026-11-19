@@ -1,0 +1,77 @@
+/* Motion is opt-in enhancement; unobserved content is visible by default. */
+.motion-ready[data-motion="full"] .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .75s ease, transform .85s cubic-bezier(.2,.7,.2,1);
+}
+.motion-ready[data-motion="full"] .reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.pg-scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #ff623b;
+  z-index: 48;
+  pointer-events: none;
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+.pg-motion-control {
+  position: fixed;
+  right: 24px;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid #20332d25;
+  background: #f6f5efed;
+  color: #20332d;
+  box-shadow: 0 3px 14px #20332d0c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 35;
+  transition: background .2s, transform .2s;
+  backdrop-filter: blur(10px);
+}
+.pg-motion-control:hover { background: #ff623b; transform: translateY(-2px); }
+.pg-motion-control:focus-visible { outline: 2px solid #ff623b; outline-offset: 4px; }
+.pg-motion-tooltip {
+  position: absolute;
+  right: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  background: #20332d;
+  color: #f6f5ef;
+  font-size: 12px;
+  line-height: 1.5;
+  padding: 8px 12px;
+  border-radius: 6px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .15s;
+}
+.pg-motion-control:hover .pg-motion-tooltip,
+.pg-motion-control:focus-visible .pg-motion-tooltip { opacity: 1; }
+html[data-motion="reduced"],
+html[data-motion="reduced"] *,
+html[data-motion="reduced"] *::before,
+html[data-motion="reduced"] *::after {
+  scroll-behavior: auto !important;
+  animation: none !important;
+  transition: none !important;
+}
+html[data-motion="reduced"] .reveal { opacity: 1; transform: none; }
+@media (max-width: 600px) {
+  .pg-motion-control { right: 16px; bottom: max(16px, env(safe-area-inset-bottom)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .motion-ready[data-motion="full"] .reveal,
+  .motion-ready[data-motion="full"] .reveal.is-visible { opacity: 1; transform: none; transition: none; }
+  .pg-motion-control,.pg-motion-tooltip { transition: none; }
+}
